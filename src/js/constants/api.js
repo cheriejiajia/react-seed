@@ -1,3 +1,3 @@
 module.exports = {
-  LOAD: '/data.json'
+  LOAD: '/static/data/data.json'
 };

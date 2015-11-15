@@ -1,6 +1,6 @@
 var Dispatcher = require('../dispatcher/dispatcher');
 var ActionType = require('../constants/action_type');
-var Service = require('../services/services');
+var Service = require('../services/service');
 
 module.exports = {
 	load: function(){

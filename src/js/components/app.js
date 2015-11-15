@@ -1,6 +1,7 @@
 var React = require('react');
 var _ = require('lodash');
 var Store = require('../stores/store');
+var Action = require('../actions/action');
 var Header = require('./header');
 var Main = require('./main');
 var Footer = require('./footer');
@@ -15,6 +16,7 @@ module.exports = React.createClass({
 
   componentDidMount: function() {
     Store.addChangeListener(this._onChange);
+    Action.load();
   },
 
   componentWillUnmount: function() {

@@ -1,3 +1,5 @@
 /node_modules/
 /src/js/build.js
 /src/css/build.css
+/dist
+*.log
