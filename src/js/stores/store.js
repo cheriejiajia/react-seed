@@ -1,43 +1,76 @@
-var _ = require('lodash');
-var EventEmitter = require('events').EventEmitter;
-var Dispatcher = require('../dispatcher/dispatcher');
-var ActionType = require('../constants/action_type');
+import EventEmitter from 'events';
+import Dispatcher from '../dispatcher/dispatcher';
+import ActionType from '../constants/action_type';
+import ChangeEvent from '../constants/change_event';
 
-var _data = {};
+let _data = {};
+let _error = {};
 
-function load(data){
+function load(data) {
   _data = data;
 }
 
-var Store = _.extend({}, EventEmitter.prototype, {
+function error(error) {
+  _error = error;
+}
 
-  data: function(){
+class Store extends EventEmitter {
+  constructor() {
+    super();
+  }
+
+  data() {
     return _data;
-  },
+  }
 
-  emitChange: function() {
-    this.emit('change');
-  },
+  error() {
+    return _error;
+  }
 
-  addChangeListener: function(callback) {
-    this.on('change', callback);
-  },
+  emitChange() {
+    this.emit(ChangeEvent.CHANGE);
+  }
 
-  removeChangeListener: function(callback) {
-    this.removeListener('change', callback);
-  },
+  addChangeListener(callback) {
+    this.on(ChangeEvent.CHANGE, callback);
+  }
 
-});
+  removeChangeListener(callback) {
+    this.removeListener(ChangeEvent.CHANGE, callback);
+  }
 
-Dispatcher.register(function(payload) {
-  var action = payload;
+  emitError() {
+    this.emit(ChangeEvent.ERROR);
+  }
+
+  addErrorListener(callback) {
+    this.on(ChangeEvent.ERROR, callback);
+  }
+
+  removeErrorListener(callback) {
+    this.removeListener(ChangeEvent.ERROR, callback);
+  }
+}
+
+const AppStore = new Store();
+
+Dispatcher.register(payload => {
+  let action = payload;
 
   switch(action.actionType) {
     case ActionType.LOAD:
       load(action.data);
       break;
   }
-  Store.emitChange();
+
+  switch(action.actionType) {
+    case ActionType.ERROR:
+      error(action.error);
+      AppStore.emitError();
+      return;
+  }
+  
+  AppStore.emitChange();
 });
 
-module.exports = Store;
+export default AppStore;

@@ -1,13 +1,11 @@
-var React = require('react');
+import React from 'react';
 
-var Item = React.createClass({
+export default class Item extends React.Component{
 
-	render: function() {
+	render() {
 		return (
 			<li>{this.props.data.name}</li>
 		);
 	}
 
-});
-
-module.exports = Item;
+}

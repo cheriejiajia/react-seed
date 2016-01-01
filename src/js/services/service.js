@@ -1,8 +1,8 @@
-var Api = require('../constants/api');
+import Api from '../constants/api';
 
-module.exports = {
-  load: function() {
-      return $.get(Api.LOAD);
-    }
+export default {
+  load() {
+    return $.get(Api.LOAD);
+  }
 };
 

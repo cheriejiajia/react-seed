@@ -1,51 +1,69 @@
-var React = require('react');
-var _ = require('lodash');
-var Store = require('../stores/store');
-var Action = require('../actions/action');
-var Header = require('./header');
-var Main = require('./main');
-var Footer = require('./footer');
+import React from 'react';
+import {Modal, Button} from 'react-bootstrap';
+import Store from '../stores/store';
+import Action from '../actions/action';
+import Header from './header';
+import Main from './main';
+import Footer from './footer';
 
-module.exports = React.createClass({
-  
-  getInitialState: function() {
-    return {
-      data: Store.data()
+export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: Store.data(),
+      error: Store.error()
     };
-  },
+    this.onChange = this._onChange.bind(this);
+    this.closeError = this._closeError.bind(this);
+  }
 
-  componentDidMount: function() {
-    Store.addChangeListener(this._onChange);
+  componentDidMount() {
+    Store.addChangeListener(this.onChange);
+    Store.addErrorListener(this.onChange);
     Action.load();
-  },
+  }
 
-  componentWillUnmount: function() {
-    Store.removeChangeListener(this._onChange);
-  },
-  
-  render: function() {
-    var data = this.state.data;
+  componentWillUnmount() {
+    Store.removeChangeListener(this.onChange);
+    Store.removeErrorListener(this.onChange);
+  }
 
-    var ui = null;
-    if(!_.isEmpty(data)) {
-      ui = (
-        <div>
-          <Header data={data} />
-          <Main data={data} />
-          <Footer data={data} />
-        </div>
-      );
-    }
+  render() {
+    let data = this.state.data;
+    let ui = (
+      <div>
+        <Header />
+        <Main data={data} />
+        <Footer />
+      </div>
+    );
 
     return (
       <div>
         {ui}
+
+        <Modal show={this.state.error.error} onHide={this.closeError}>
+          <Modal.Header closeButton>
+            <Modal.Title>Alert</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.state.error.message}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeError}>Close</Button>
+          </Modal.Footer>
+        </Modal>        
       </div>
     );
-  },
-  
-  _onChange: function() {
-    this.setState(this.getInitialState());
   }
 
-});
+  _onChange() {
+    this.setState({ data: Store.data(), error: Store.error() });
+  }
+
+  _closeError() {
+    Action.error(false);
+  }
+
+}

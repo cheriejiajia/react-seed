@@ -1,10 +1,8 @@
-var React = require('react');
+import React from 'react';
 
-var Header = React.createClass({
+export default class Header extends React.Component{
 
-	render: function() {
-		var data = this.props.data;
-
+	render() {
 		return (
 			<div className="header">
 				Header
@@ -12,6 +10,4 @@ var Header = React.createClass({
 		);
 	}
 
-});
-
-module.exports = Header;
+}

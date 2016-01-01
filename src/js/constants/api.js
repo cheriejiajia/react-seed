@@ -1,3 +1,3 @@
-module.exports = {
-  LOAD: '/static/data/data.json'
+export default {
+  LOAD: '/static/data/datas.json'
 };

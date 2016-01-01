@@ -1,14 +1,27 @@
-var Dispatcher = require('../dispatcher/dispatcher');
-var ActionType = require('../constants/action_type');
-var Service = require('../services/service');
+import Dispatcher from '../dispatcher/dispatcher';
+import ActionType from '../constants/action_type';
+import Service from '../services/service';
 
-module.exports = {
-	load: function(){
-		Service.load().then(function(data){
-			Dispatcher.dispatch({
-				actionType: ActionType.LOAD,
-				data: data
-			});
+class Action {
+	load() {
+		Service.load()
+			.done((data) => {
+				Dispatcher.dispatch({
+					actionType: ActionType.LOAD,
+					data: data
+				});
+			})
+			.fail(() => this.error({error: true, message: "Can't load data"}));
+	}
+
+	error(error) {
+		error = error ? error : {};
+		Dispatcher.dispatch({
+			actionType: ActionType.ERROR,
+			error: error
 		});
 	}
-};
+}
+
+const AppAction = new Action();
+export default AppAction;

@@ -1,6 +1,6 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-	LOAD: null,
+	CHANGE: null,
 	ERROR: null
 });

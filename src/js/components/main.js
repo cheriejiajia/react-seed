@@ -1,16 +1,18 @@
-var React = require('react');
-var _ = require('lodash');
-var Item = require('./item');
+import React from 'react';
+import Item from './item';
 
-var Main = React.createClass({
+export default class Main extends React.Component {
 
-	render: function() {
-		var data = this.props.data;
-		
-		var items = null;
-		items = _.map(data, function(n){
-			return (<Item key={n.id} data={n} />);
-		});
+	render() {
+		let data = this.props.data;
+		let items = null;
+
+		if(data.length > 0) {
+			items = data.map(n => {
+				return (<Item key={n.id} data={n} />);
+			});
+		}
+
 		return (
 			<div className="main">
 				<ul>
@@ -20,6 +22,4 @@ var Main = React.createClass({
 		);
 	}
 
-});
-
-module.exports = Main;
+}
