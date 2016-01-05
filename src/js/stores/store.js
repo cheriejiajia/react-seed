@@ -10,8 +10,8 @@ function load(data) {
   _data = data;
 }
 
-function error(error) {
-  _error = error;
+function error(data) {
+  _error = data;
 }
 
 class Store extends EventEmitter {

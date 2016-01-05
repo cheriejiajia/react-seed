@@ -50,8 +50,8 @@ gulp.task('watch-js', function() {
     cache: {}, packageCache: {}, fullPaths: true
   }).transform("babelify", {presets: ["es2015", "react"]});
 
+  jsLint();
   var watcher  = watchify(bundler);
-
   return watcher.on('update', function () {
     jsLint();
 
