@@ -1,6 +1,8 @@
 import keyMirror from 'keymirror';
 
-export default keyMirror({
+const CHANGE_EVENT = keyMirror({
 	CHANGE: null,
 	ERROR: null
 });
+
+export default CHANGE_EVENT;

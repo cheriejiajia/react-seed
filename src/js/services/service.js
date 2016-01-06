@@ -1,8 +1,10 @@
 import Api from '../constants/api';
 
-export default {
+class Service {
   load() {
     return $.get(Api.LOAD);
   }
-};
+}
 
+const AppService = new Service();
+export default AppService;

@@ -1,6 +1,8 @@
 import keyMirror from 'keymirror';
 
-export default keyMirror({
+const ACTION_TYPE = keyMirror({
 	LOAD: null,
 	ERROR: null
 });
+
+export default ACTION_TYPE;
