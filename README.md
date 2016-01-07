@@ -4,7 +4,11 @@ Using gulp tasks for watching and compiling React and Less code.
 
 ##Installation:
 - Install nodejs: https://nodejs.org/
-- Install gulp globally: <pre><code>$ npm install gulp -g</code></pre>
+- Install gulp globally: 
+<pre><code>
+$ npm install gulp -g
+$ npm install jshint -g
+</code></pre>
 - Go to the root of the project, install all the dependencies: <pre><code>$ npm install</code></pre>
 
 ##Use:
