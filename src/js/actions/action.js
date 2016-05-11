@@ -14,6 +14,17 @@ class Action {
 			.fail(() => this.error({error: true, message: "Can't load data"}));
 	}
 
+	getItemById(id) {
+		Service.getItemById(id)
+			.done((data) => {
+				Dispatcher.dispatch({
+					actionType: ActionType.LOAD_BY_ID,
+					data: data
+				});
+			})
+			.fail(() => this.error({error: true, message: "Can't load data"}));
+	}
+
 	error(error) {
 		error = error ? error : {};
 		Dispatcher.dispatch({

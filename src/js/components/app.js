@@ -11,7 +11,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: Store.data(),
       error: Store.error()
     };
     this.onChange = this._onChange.bind(this);
@@ -19,22 +18,26 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    Store.addChangeListener(this.onChange);
     Store.addErrorListener(this.onChange);
-    Action.load();
   }
 
   componentWillUnmount() {
-    Store.removeChangeListener(this.onChange);
     Store.removeErrorListener(this.onChange);
   }
 
+  _onChange() {
+    this.setState({ error: Store.error() });
+  }
+
+  _closeError() {
+    Action.error(false);
+  }
+
   render() {
-    let data = this.state.data;
     let ui = (
       <div>
         <Header />
-        <Main data={data} />
+        {this.props.children}
         <Footer />
       </div>
     );
@@ -56,14 +59,6 @@ export default class App extends React.Component {
         </Modal>        
       </div>
     );
-  }
-
-  _onChange() {
-    this.setState({ data: Store.data(), error: Store.error() });
-  }
-
-  _closeError() {
-    Action.error(false);
   }
 
 }

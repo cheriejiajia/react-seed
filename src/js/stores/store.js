@@ -3,11 +3,16 @@ import Dispatcher from '../dispatcher/dispatcher';
 import ActionType from '../constants/action_type';
 import ChangeEvent from '../constants/change_event';
 
-let _data = {};
+let _data = [];
+let _item = {};
 let _error = {};
 
 function load(data) {
   _data = data;
+}
+
+function getItemById(data) {
+  _item = data;
 }
 
 function error(data) {
@@ -21,6 +26,10 @@ class Store extends EventEmitter {
 
   data() {
     return _data;
+  }
+
+  item() {
+    return _item;
   }
 
   error() {
@@ -62,7 +71,13 @@ Dispatcher.register(payload => {
       load(action.data);
       break;
   }
-
+  
+  switch(action.actionType) {
+    case ActionType.LOAD_BY_ID:
+      getItemById(action.data);
+      break;
+  }
+  
   switch(action.actionType) {
     case ActionType.ERROR:
       error(action.error);
